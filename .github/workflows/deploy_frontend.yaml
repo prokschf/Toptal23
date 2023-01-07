@@ -17,10 +17,7 @@ jobs:
     steps:
       # Checkout the code
       - uses: actions/checkout@v2
-        with:
-          repository: prokschf/Toptal23
-          token: ${{ secrets.PAT }}
-          ref: main
+
       # Install dependencies
       - name: Install dependencies
         run: npm install
