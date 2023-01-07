@@ -5,7 +5,7 @@ name: Deploy React frontend
 on:
   push:
     branches:
-      - master
+      - main
 env:
   BUCKET_NAME : "<example-bucket-name>"
   AWS_REGION : "<example-aws-region>"
