@@ -9,7 +9,7 @@ on:
 
 permissions:
   id-token: write # This is required for requesting the JWT
-  
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -24,6 +24,7 @@ jobs:
     - uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: 0.15.5
-    - name: Deploy infrastructure
+    - run: terraform init
+    - id: plan
       run: terraform apply -auto-approve
       working-directory: ./ReactLambda/terraform
