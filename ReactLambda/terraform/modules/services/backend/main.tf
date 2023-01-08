@@ -57,56 +57,36 @@ resource "aws_lambda_layer_version" "backend_lambda_nodejs_layer" {
   compatible_runtimes = ["nodejs12.x"]
 }
 
-locals {
-  lambda_function_name_createUser = "createUser-lambda-${var.stage_name}"
-  lambda_function_name_loginUser = "loginUser-lambda-${var.stage_name}"
-  lambda_function_name_getUser = "getUser-lambda-${var.stage_name}"
-  lambda_function_name_updateUser = "updateUser-lambda-${var.stage_name}"
-}
+module "api_endpoint" {
+  source = ".//api_endpoint"
 
-resource "aws_cloudwatch_log_group" "loginUser_logging" {
-  name = "/aws/lambda/${local.lambda_function_name_loginUser}"
-}
-
-resource "aws_lambda_function" "loginUser_lambda" {
-  function_name = "${local.lambda_function_name_loginUser}"
-  filename = "${local.lambda_function_zip_name}"
+  parent_resource_id = aws_api_gateway_resource.api_resource.id
+  gateway_id = aws_api_gateway_rest_api.backend_gw.id
+  backend_lambda_nodejs_layer_arn = aws_lambda_layer_version.backend_lambda_nodejs_layer.arn
+  iam_role_arm = aws_iam_role.lambda_role.arn
   source_code_hash = "${data.archive_file.lambda_package.output_base64sha256}"
-  handler = "src/User.login"
-  runtime = "nodejs12.x"
-  publish = "true"
-  timeout = 60
-  role = "${aws_iam_role.lambda_role.arn}"
-  depends_on = [aws_cloudwatch_log_group.loginUser_logging]
-  layers = ["${aws_lambda_layer_version.backend_lambda_nodejs_layer.arn}"]
-
-  environment {
-    variables = {
-      DYNAMODB_NAMESPACE = "${var.stage_name}"
-    }
-  }  
+  stage_name = var.stage_name
+  zip_name = "${local.lambda_function_zip_name}"  
+  function_names_handlers_verbs = [
+    ["createUser", "src/User.create", "POST", aws_api_gateway_resource.users_resource.id],
+    ["loginUser", "src/User.login", "POST", aws_api_gateway_resource.login_resource.id],
+    ["getUser", "src/User.get", "GET", aws_api_gateway_resource.user_resource.id],
+    ["updateUser", "src/User.update", "PUT", aws_api_gateway_resource.user_resource.id],
+    ["getProfile", "src/User.getProfile", "PUT", aws_api_gateway_resource.username_resource.id],
+    ["followUser", "src/User.follow", "POST", aws_api_gateway_resource.follow_resource.id],
+    ["unfollowUser", "src/User.follow", "DELETE", aws_api_gateway_resource.follow_resource.id],    
+    ["createArticle", "src/Article.create", "POST", aws_api_gateway_resource.articles_resource.id],    
+    ["getArticle", "src/Article.get", "GET", aws_api_gateway_resource.slug_resource.id],    
+    ["udpateArticle", "src/Article.update", "PUT", aws_api_gateway_resource.slug_resource.id],    
+    ["deleteArticle", "src/Article.delete", "DELETE", aws_api_gateway_resource.slug_resource.id],    
+    ["favoriteArticle", "src/Article.favorite", "POST", aws_api_gateway_resource.favorite_resource.id],    
+    ["unfavoriteArticle", "src/Article.favorite", "DELETE", aws_api_gateway_resource.favorite_resource.id],    
+    ["listArticles", "src/Article.list", "GET", aws_api_gateway_resource.articles_resource.id],    
+    ["getArticlesFeed", "src/Article.getFeed", "GET", aws_api_gateway_resource.feed_resource.id],    
+    ["getTags", "src/Article.getTags", "GET", aws_api_gateway_resource.tags_resource.id],    
+    ["createComment", "src/Comment.create", "POST", aws_api_gateway_resource.comments_resource.id],    
+    ["getComments", "src/Comment.get", "GET", aws_api_gateway_resource.comments_resource.id],    
+    ["deleteComment", "src/Comment.delete", "DELETE", aws_api_gateway_resource.id_resource.id],    
+    ["ping", "src/Util.ping", "GET", aws_api_gateway_resource.ping_resource.id],    
+  ]
 }
-
-resource "aws_cloudwatch_log_group" "createUser_logging" {
-  name = "/aws/lambda/${local.lambda_function_name_createUser}"
-}
-
-resource "aws_lambda_function" "createUser_lambda" {
-  function_name = "${local.lambda_function_name_createUser}"
-  filename = "${local.lambda_function_zip_name}"
-  source_code_hash = "${data.archive_file.lambda_package.output_base64sha256}"
-  handler = "src/User.create"
-  runtime = "nodejs12.x"
-  publish = "true"
-  timeout = 60
-  role = "${aws_iam_role.lambda_role.arn}"
-  depends_on = [aws_cloudwatch_log_group.createUser_logging]
-  layers = ["${aws_lambda_layer_version.backend_lambda_nodejs_layer.arn}"]
-
-  environment {
-    variables = {
-      DYNAMODB_NAMESPACE = "${var.stage_name}"
-    }
-  }  
-}
-

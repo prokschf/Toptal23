@@ -8,28 +8,102 @@ resource "aws_api_gateway_resource" "api_resource" {
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
 
+resource "aws_api_gateway_resource" "users_resource" {
+  parent_id   = aws_api_gateway_resource.api_resource.id
+  path_part   = "users"
+  rest_api_id = aws_api_gateway_rest_api.backend_gw.id
+}
+
+resource "aws_api_gateway_resource" "login_resource" {
+  parent_id   = aws_api_gateway_resource.users_resource.id
+  path_part   = "login"
+  rest_api_id = aws_api_gateway_rest_api.backend_gw.id
+}
+
+resource "aws_api_gateway_resource" "user_resource" {
+  parent_id   = aws_api_gateway_resource.api_resource.id
+  path_part   = "user"
+  rest_api_id = aws_api_gateway_rest_api.backend_gw.id
+}
+
+resource "aws_api_gateway_resource" "profiles_resource" {
+  parent_id   = aws_api_gateway_resource.api_resource.id
+  path_part   = "profiles"
+  rest_api_id = aws_api_gateway_rest_api.backend_gw.id
+}
+
+resource "aws_api_gateway_resource" "username_resource" {
+  parent_id   = aws_api_gateway_resource.profiles_resource.id
+  path_part   = "{username}"
+  rest_api_id = aws_api_gateway_rest_api.backend_gw.id
+}
+
+resource "aws_api_gateway_resource" "follow_resource" {
+  parent_id   = aws_api_gateway_resource.username_resource.id
+  path_part   = "follow"
+  rest_api_id = aws_api_gateway_rest_api.backend_gw.id
+}
+
+resource "aws_api_gateway_resource" "articles_resource" {
+  parent_id   = aws_api_gateway_resource.api_resource.id
+  path_part   = "articles"
+  rest_api_id = aws_api_gateway_rest_api.backend_gw.id
+}
+
+resource "aws_api_gateway_resource" "slug_resource" {
+  parent_id   = aws_api_gateway_resource.articles_resource.id
+  path_part   = "{slug}"
+  rest_api_id = aws_api_gateway_rest_api.backend_gw.id
+}
+
+resource "aws_api_gateway_resource" "favorite_resource" {
+  parent_id   = aws_api_gateway_resource.slug_resource.id
+  path_part   = "favorite"
+  rest_api_id = aws_api_gateway_rest_api.backend_gw.id
+}
+
+resource "aws_api_gateway_resource" "feed_resource" {
+  parent_id   = aws_api_gateway_resource.articles_resource.id
+  path_part   = "feed"
+  rest_api_id = aws_api_gateway_rest_api.backend_gw.id
+}
 
 
-resource "aws_api_gateway_integration" "createUser_integration" {
-  rest_api_id = "${aws_api_gateway_rest_api.backend_gw.id}"
-  resource_id = "${aws_api_gateway_method.post_users.resource_id}"
-  http_method = "${aws_api_gateway_method.post_users.http_method}"
+resource "aws_api_gateway_resource" "tags_resource" {
+  parent_id   = aws_api_gateway_resource.articles_resource.id
+  path_part   = "tags"
+  rest_api_id = aws_api_gateway_rest_api.backend_gw.id
+}
 
-  integration_http_method = "POST"
-  type                    = "AWS_PROXY"
-  uri                     = "${aws_lambda_function.createUser_lambda.invoke_arn}"
 
-  depends_on = [aws_lambda_function.createUser_lambda]
+resource "aws_api_gateway_resource" "comments_resource" {
+  parent_id   = aws_api_gateway_resource.slug_resource.id
+  path_part   = "comments"
+  rest_api_id = aws_api_gateway_rest_api.backend_gw.id
+}
+
+
+resource "aws_api_gateway_resource" "id_resource" {
+  parent_id   = aws_api_gateway_resource.comments_resource.id
+  path_part   = "{id}"
+  rest_api_id = aws_api_gateway_rest_api.backend_gw.id
+}
+
+
+resource "aws_api_gateway_resource" "ping_resource" {
+  parent_id   = aws_api_gateway_resource.api_resource.id
+  path_part   = "ping"
+  rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
 
 resource "aws_api_gateway_deployment" "deployment_gw" {
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 
+  depends_on = [module.api_endpoint]
+
   lifecycle {
     create_before_destroy = true
   }
-
-  depends_on = [aws_api_gateway_method.post_users]
 }
 
 resource "aws_api_gateway_stage" "gw_stage" {
@@ -41,3 +115,4 @@ resource "aws_api_gateway_stage" "gw_stage" {
 output "base_url" {
   value = "${aws_api_gateway_deployment.deployment_gw.invoke_url}"
 }
+
