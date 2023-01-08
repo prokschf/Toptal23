@@ -3,9 +3,8 @@ name: Deploy Backend
 on:
   push:
     branches:
-      - main
+      - mainsdd
     paths:
-      - ReactLambda/backend/**      
 
 permissions:
   id-token: write # This is required for requesting the JWT

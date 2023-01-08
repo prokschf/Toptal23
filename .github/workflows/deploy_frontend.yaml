@@ -7,7 +7,7 @@ on:
     branches:
       - main
     paths:
-      - frontend/**      
+      - 'ReactLambda/frontend/**'    
 
 permissions:
   id-token: write # This is required for requesting the JWT
