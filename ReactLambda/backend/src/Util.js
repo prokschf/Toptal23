@@ -1,6 +1,6 @@
 /* istanbul ignore next */
 if (!process.env.AWS_REGION) {
-  process.env.AWS_REGION = 'us-east-1';
+  process.env.AWS_REGION = 'eu-central-1';
 }
 
 /* istanbul ignore next */
@@ -19,6 +19,11 @@ if (process.env.IS_OFFLINE) {
     endpoint: "http://localhost:8000"
   });
 }
+
+AWS.config.update({
+  region: 'us-east-1',
+});
+
 DocumentClient = new AWS.DynamoDB.DocumentClient();
 
 
