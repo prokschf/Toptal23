@@ -25,6 +25,7 @@ jobs:
       with:
         terraform_version: 0.15.5
     - run: terraform init
+      working-directory: ./ReactLambda/terraform
     - id: plan
       run: terraform apply -auto-approve
       working-directory: ./ReactLambda/terraform
