@@ -41,6 +41,7 @@ module "api_endpoint" {
     aws_api_gateway_resource.comments_resource,
     aws_api_gateway_resource.id_resource
   ]
+  
   function_configs = {
     "createUser": {
         "handler": "users-post",
