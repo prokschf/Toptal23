@@ -7,7 +7,7 @@ on:
     branches:
       - main
     paths:
-      - 'ReactLambda/frontend/**'    
+      - 'frontend/**'    
 
 permissions:
   id-token: write # This is required for requesting the JWT
@@ -23,12 +23,12 @@ jobs:
       # Install dependencies
       - name: Install dependencies
         run: npm install
-        working-directory: ./ReactLambda/frontend
+        working-directory: ./frontend
 
       # Build the React application
       - name: Build the React application
         run: npm run build
-        working-directory: ./ReactLambda/frontend
+        working-directory: ./frontend
 
       # Set up AWS credentials
       - name: Configure AWS credentials
@@ -41,5 +41,5 @@ jobs:
       # Sync the built React application with the S3 bucket
       - name: Sync with S3 bucket
         run: aws s3 sync build/ s3://react23test --delete
-        working-directory: ./ReactLambda/frontend
+        working-directory: ./frontend
 

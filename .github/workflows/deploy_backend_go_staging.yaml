@@ -5,9 +5,9 @@ on:
     branches:
       - main
     paths:
-      - 'ReactLambda/backend-go/**'
-      - 'ReactLambda/terraform/staging/services/backend/**'
-      - 'ReactLambda/terraform/modules/services/backend/**'
+      - 'backend-go/**'
+      - 'terraform/staging/services/backend/**'
+      - 'terraform/modules/services/backend/**'
 
 permissions:
   id-token: write # This is required for requesting the JWT
@@ -34,15 +34,15 @@ jobs:
         go-version: 1.15
     - name: Make executeable
       run: chmod +x ./gobuild.sh
-      working-directory: ./ReactLambda/backend-go
+      working-directory: ./backend-go
     - name: Make executeable
       run: chmod +x ./gomod.sh
-      working-directory: ./ReactLambda/backend-go
+      working-directory: ./backend-go
     - name: build application
       run: make build  
-      working-directory: ./ReactLambda/backend-go
+      working-directory: ./backend-go
     - run: TF_LOG=DEBUG terraform init
-      working-directory: ./ReactLambda/terraform/staging/services/backend
+      working-directory: ./terraform/staging/services/backend
     - id: plan
       run: terraform apply -auto-approve
-      working-directory: ./ReactLambda/terraform/staging/services/backend
+      working-directory: ./terraform/staging/services/backend

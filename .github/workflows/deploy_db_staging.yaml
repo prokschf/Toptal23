@@ -7,7 +7,7 @@ on:
     branches:
       - main
     paths:
-      - 'ReactLambda/terraform/staging/db/**'    
+      - 'terraform/staging/db/**'    
 
 permissions:
   id-token: write # This is required for requesting the JWT
@@ -28,9 +28,9 @@ jobs:
           role-session-name: DeployDBession
           aws-region: eu-central-1
       - run: TF_LOG=DEBUG terraform init
-        working-directory: ./ReactLambda/terraform/staging/db
+        working-directory: ./terraform/staging/db
       - id: plan
         run: terraform apply -auto-approve
-        working-directory: ./ReactLambda/terraform/staging/db
+        working-directory: ./terraform/staging/db
 
 
