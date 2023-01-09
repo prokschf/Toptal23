@@ -3,9 +3,9 @@ package main
 import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"../../model"
-	"../../service"
-	"../../util"
+	"github.com/chrisxue815/realworld-aws-lambda-dynamodb-go/model"
+	"github.com/chrisxue815/realworld-aws-lambda-dynamodb-go/service"
+	"github.com/chrisxue815/realworld-aws-lambda-dynamodb-go/util"
 	"strconv"
 )
 
