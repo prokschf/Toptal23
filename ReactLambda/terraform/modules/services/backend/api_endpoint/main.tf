@@ -74,7 +74,6 @@ resource "aws_api_gateway_method" "gw_methods" {
   http_method   = each.value.verb
   resource_id   = each.value.resource.id
   rest_api_id   = "${var.gateway_id}"
-  depends_on = [each.value.resource]
 }
 
 resource "aws_api_gateway_integration" "integration" {

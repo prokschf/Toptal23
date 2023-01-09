@@ -27,6 +27,20 @@ module "api_endpoint" {
   iam_role_arm = aws_iam_role.lambda_role.arn
   stage_name = var.stage_name
   gateway_execution_arn = aws_api_gateway_rest_api.backend_gw.execution_arn
+  depends_on = [
+    aws_api_gateway_resource.users_resource, 
+    aws_api_gateway_resource.login_resource,
+    aws_api_gateway_resource.user_resource, 
+    aws_api_gateway_resource.username_resource,
+    aws_api_gateway_resource.follow_resource,
+    aws_api_gateway_resource.articles_resource,
+    aws_api_gateway_resource.slug_resource,
+    aws_api_gateway_resource.favorite_resource,
+    aws_api_gateway_resource.feed_resource,
+    aws_api_gateway_resource.tags_resource,
+    aws_api_gateway_resource.comments_resource,
+    aws_api_gateway_resource.id_resource
+  ]
   function_configs = {
     "createUser": {
         "handler": "users-post",
