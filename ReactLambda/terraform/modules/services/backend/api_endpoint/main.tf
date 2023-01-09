@@ -28,7 +28,7 @@ variable "iam_role_arm" {
 data "archive_file" "lambda_package" {
   for_each = var.function_configs
   type = "zip"
-  source_file  = "${path.module}/../../../../backend-go/bin/${each.value.handler}"
+  source_file  = "${path.module}/../../../../../backend-go/bin/${each.value.handler}"
   output_path = "zip_${each.value.handler}"
 }
 
