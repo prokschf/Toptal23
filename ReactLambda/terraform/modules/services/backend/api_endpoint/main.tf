@@ -20,9 +20,6 @@ variable "gateway_execution_arn" {
     type = string
 }
 
-variable "source_code_hash" {
-    type = string
-}
 
 variable "iam_role_arm" {
     type = string
@@ -54,7 +51,7 @@ resource "aws_lambda_function" "lambdas" {
   for_each = var.function_configs
   function_name = "realworld-${var.stage_name}-${each.key}"
   filename = "zip_${each.value.handler}"
-  source_code_hash = "${var.source_code_hash}"
+  source_code_hash = data.archive_file.lambda_package[each.key].output_base64sha256
   handler = each.value.handler
 #  runtime = "nodejs12.x"
   runtime = "go1.x"

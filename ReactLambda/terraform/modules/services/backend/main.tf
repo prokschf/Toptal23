@@ -25,7 +25,6 @@ module "api_endpoint" {
   parent_resource_id = aws_api_gateway_resource.api_resource.id
   gateway_id = aws_api_gateway_rest_api.backend_gw.id
   iam_role_arm = aws_iam_role.lambda_role.arn
-  source_code_hash = "${data.archive_file.lambda_package.output_base64sha256}"
   stage_name = var.stage_name
   gateway_execution_arn = aws_api_gateway_rest_api.backend_gw.execution_arn
   function_configs = {
