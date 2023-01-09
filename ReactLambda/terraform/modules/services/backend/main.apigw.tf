@@ -16,6 +16,7 @@ module "cors1" {
 
   api_id          = aws_api_gateway_rest_api.backend_gw.id
   api_resource_id = aws_api_gateway_resource.api_resource.id
+  depends_on = [aws_api_gateway_resource.api_resource]
 }
 
 resource "aws_api_gateway_resource" "users_resource" {
@@ -30,6 +31,7 @@ module "cors2" {
 
   api_id          = aws_api_gateway_rest_api.backend_gw.id
   api_resource_id = aws_api_gateway_resource.users_resource.id
+  depends_on = [aws_api_gateway_resource.users_resource]
 }
 
 resource "aws_api_gateway_resource" "login_resource" {
@@ -44,6 +46,7 @@ module "cors3" {
 
   api_id          = aws_api_gateway_rest_api.backend_gw.id
   api_resource_id = aws_api_gateway_resource.login_resource.id
+  depends_on = [aws_api_gateway_resource.login_resource]  
 }
 
 resource "aws_api_gateway_resource" "user_resource" {
@@ -58,6 +61,7 @@ module "cors4" {
 
   api_id          = aws_api_gateway_rest_api.backend_gw.id
   api_resource_id = aws_api_gateway_resource.user_resource.id
+  depends_on = [aws_api_gateway_resource.user_resource]  
 }
 
 resource "aws_api_gateway_resource" "profiles_resource" {
@@ -72,6 +76,7 @@ module "cors5" {
 
   api_id          = aws_api_gateway_rest_api.backend_gw.id
   api_resource_id = aws_api_gateway_resource.profiles_resource.id
+  depends_on = [aws_api_gateway_resource.profiles_resource]  
 }
 
 resource "aws_api_gateway_resource" "username_resource" {
@@ -86,6 +91,7 @@ module "cors6" {
 
   api_id          = aws_api_gateway_rest_api.backend_gw.id
   api_resource_id = aws_api_gateway_resource.username_resource.id
+  depends_on = [aws_api_gateway_resource.username_resource]  
 }
 
 resource "aws_api_gateway_resource" "follow_resource" {
@@ -100,6 +106,7 @@ module "cors7" {
 
   api_id          = aws_api_gateway_rest_api.backend_gw.id
   api_resource_id = aws_api_gateway_resource.follow_resource.id
+  depends_on = [aws_api_gateway_resource.follow_resource]  
 }
 
 resource "aws_api_gateway_resource" "articles_resource" {
@@ -114,6 +121,7 @@ module "cors8" {
 
   api_id          = aws_api_gateway_rest_api.backend_gw.id
   api_resource_id = aws_api_gateway_resource.articles_resource.id
+  depends_on = [aws_api_gateway_resource.articles_resource]  
 }
 
 resource "aws_api_gateway_resource" "slug_resource" {
@@ -128,6 +136,7 @@ module "cors9" {
 
   api_id          = aws_api_gateway_rest_api.backend_gw.id
   api_resource_id = aws_api_gateway_resource.slug_resource.id
+  depends_on = [aws_api_gateway_resource.slug_resource]  
 }
 
 resource "aws_api_gateway_resource" "favorite_resource" {
@@ -142,6 +151,7 @@ module "cors10" {
 
   api_id          = aws_api_gateway_rest_api.backend_gw.id
   api_resource_id = aws_api_gateway_resource.favorite_resource.id
+  depends_on = [aws_api_gateway_resource.favorite_resource]  
 }
 
 resource "aws_api_gateway_resource" "feed_resource" {
@@ -156,6 +166,7 @@ module "cors11" {
 
   api_id          = aws_api_gateway_rest_api.backend_gw.id
   api_resource_id = aws_api_gateway_resource.feed_resource.id
+  depends_on = [aws_api_gateway_resource.feed_resource]  
 }
 
 resource "aws_api_gateway_resource" "tags_resource" {
@@ -170,6 +181,7 @@ module "cors12" {
 
   api_id          = aws_api_gateway_rest_api.backend_gw.id
   api_resource_id = aws_api_gateway_resource.tags_resource.id
+  depends_on = [aws_api_gateway_resource.tags_resource]  
 }
 
 resource "aws_api_gateway_resource" "comments_resource" {
@@ -184,6 +196,7 @@ module "cors13" {
 
   api_id          = aws_api_gateway_rest_api.backend_gw.id
   api_resource_id = aws_api_gateway_resource.comments_resource.id
+  depends_on = [aws_api_gateway_resource.comments_resource]  
 }
 
 resource "aws_api_gateway_resource" "id_resource" {
@@ -198,6 +211,7 @@ module "cors14" {
 
   api_id          = aws_api_gateway_rest_api.backend_gw.id
   api_resource_id = aws_api_gateway_resource.id_resource.id
+  depends_on = [aws_api_gateway_resource.id_resource]  
 }
 
 
@@ -213,6 +227,7 @@ module "cors15" {
 
   api_id          = aws_api_gateway_rest_api.backend_gw.id
   api_resource_id = aws_api_gateway_resource.ping_resource.id
+  depends_on = [aws_api_gateway_resource.ping_resource]  
 }
 
 resource "aws_api_gateway_deployment" "deployment_gw" {
