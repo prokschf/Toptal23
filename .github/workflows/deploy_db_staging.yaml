@@ -24,8 +24,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: arn:aws:iam::273711029273:role/DeployFrontEndTestOIDC
-          role-session-name: DeployFrontendSession
+          role-to-assume: arn:aws:iam::273711029273:role/DeployBackendEndTestOIDC
+          role-session-name: DeployDBession
           aws-region: eu-central-1
       - run: TF_LOG=DEBUG terraform init
         working-directory: ./ReactLambda/terraform/staging/db
