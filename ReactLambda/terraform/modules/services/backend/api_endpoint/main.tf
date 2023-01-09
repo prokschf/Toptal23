@@ -28,12 +28,11 @@ variable "iam_role_arm" {
     type = string
 }
 
-variable "zip_name" {
-    type = string
-}
-
-variable "backend_lambda_nodejs_layer_arn" {
-    type = string
+data "archive_file" "lambda_package" {
+  for_each = var.function_configs
+  type = "zip"
+  source_file  = "${path.module}/../../../../backend-go/bin/${each.value.handler}"
+  output_path = "zip_${each.value.handler}"
 }
 
 resource "aws_cloudwatch_log_group" "log_groups" {
@@ -54,7 +53,7 @@ resource "aws_lambda_permission" "gw_permission" {
 resource "aws_lambda_function" "lambdas" {
   for_each = var.function_configs
   function_name = "realworld-${var.stage_name}-${each.key}"
-  filename = "${var.zip_name}"
+  filename = "zip_${each.value.handler}"
   source_code_hash = "${var.source_code_hash}"
   handler = each.value.handler
 #  runtime = "nodejs12.x"

@@ -36,11 +36,7 @@ data "aws_iam_policy_document" "cloudwatch_role_policy_document" {
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
                 "dynamodb:DeleteItem"]
-    resources = [
-      "${data.terraform_remote_state.db.outputs.users-table.arn}/*",
-      "${data.terraform_remote_state.db.outputs.articles-table.arn}/*",
-      "${data.terraform_remote_state.db.outputs.comments-table.arn}/*",
-    ]
+    resources = ["*"]
   }  
 }
 
