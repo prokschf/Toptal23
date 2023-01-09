@@ -1,7 +1,3 @@
-variable "domain_name" {
-  type        = string
-  description = "The domain name for the website."
-}
 
 variable "bucket_name" {
   type        = string
@@ -34,10 +30,7 @@ resource "aws_s3_bucket" "root_bucket" {
   acl    = "public-read"
   policy = templatefile("templates/s3-policy.json", { bucket = var.bucket_name })
 
-  website {
-    redirect_all_requests_to = "${var.domain_name}"
-  }
-
+  
   tags = var.common_tags
 }
 
