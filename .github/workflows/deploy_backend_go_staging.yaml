@@ -6,7 +6,8 @@ on:
       - main
     paths:
       - 'ReactLambda/backend-go/**'
-      - 'ReactLambda/terraform/staging/backend/**'
+      - 'ReactLambda/terraform/staging/services/backend/**'
+      - 'ReactLambda/terraform/modules/services/backend/**'
 
 permissions:
   id-token: write # This is required for requesting the JWT
