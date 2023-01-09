@@ -2,10 +2,19 @@ resource "aws_api_gateway_rest_api" "backend_gw" {
   name = "realworld-backend-${var.stage_name}"
 }
 
+
 resource "aws_api_gateway_resource" "api_resource" {
   parent_id   = aws_api_gateway_rest_api.backend_gw.root_resource_id
   path_part   = "api"
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
+}
+
+module "cors" {
+  source = "squidfunk/api-gateway-enable-cors/aws"
+  version = "0.3.3"
+
+  api_id          = aws_api_gateway_rest_api.backend_gw.id
+  api_resource_id = aws_api_gateway_resource.api_resource.id
 }
 
 resource "aws_api_gateway_resource" "users_resource" {
@@ -20,11 +29,13 @@ resource "aws_api_gateway_resource" "login_resource" {
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
 
+
 resource "aws_api_gateway_resource" "user_resource" {
   parent_id   = aws_api_gateway_resource.api_resource.id
   path_part   = "user"
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
+
 
 resource "aws_api_gateway_resource" "profiles_resource" {
   parent_id   = aws_api_gateway_resource.api_resource.id
@@ -32,11 +43,13 @@ resource "aws_api_gateway_resource" "profiles_resource" {
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
 
+
 resource "aws_api_gateway_resource" "username_resource" {
   parent_id   = aws_api_gateway_resource.profiles_resource.id
   path_part   = "{username}"
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
+
 
 resource "aws_api_gateway_resource" "follow_resource" {
   parent_id   = aws_api_gateway_resource.username_resource.id
@@ -68,13 +81,11 @@ resource "aws_api_gateway_resource" "feed_resource" {
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
 
-
 resource "aws_api_gateway_resource" "tags_resource" {
   parent_id   = aws_api_gateway_resource.articles_resource.id
   path_part   = "tags"
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
-
 
 resource "aws_api_gateway_resource" "comments_resource" {
   parent_id   = aws_api_gateway_resource.slug_resource.id
@@ -82,13 +93,11 @@ resource "aws_api_gateway_resource" "comments_resource" {
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
 
-
 resource "aws_api_gateway_resource" "id_resource" {
   parent_id   = aws_api_gateway_resource.comments_resource.id
   path_part   = "{id}"
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
-
 
 resource "aws_api_gateway_resource" "ping_resource" {
   parent_id   = aws_api_gateway_resource.api_resource.id
@@ -100,6 +109,19 @@ resource "aws_api_gateway_deployment" "deployment_gw" {
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 
   depends_on = [module.api_endpoint]
+
+  triggers = {
+    # NOTE: The configuration below will satisfy ordering considerations,
+    #       but not pick up all future REST API changes. More advanced patterns
+    #       are possible, such as using the filesha1() function against the
+    #       Terraform configuration file(s) or removing the .id references to
+    #       calculate a hash against whole resources. Be aware that using whole
+    #       resources will show a difference after the initial implementation.
+    #       It will stabilize to only change when resources change afterwards.
+    redeployment = sha1(jsonencode([
+      module.api_endpoint
+    ]))
+  }
 
   lifecycle {
     create_before_destroy = true

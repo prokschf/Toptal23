@@ -66,27 +66,109 @@ module "api_endpoint" {
   iam_role_arm = aws_iam_role.lambda_role.arn
   source_code_hash = "${data.archive_file.lambda_package.output_base64sha256}"
   stage_name = var.stage_name
+  gateway_execution_arn = aws_api_gateway_rest_api.backend_gw.execution_arn
   zip_name = "${local.lambda_function_zip_name}"  
-  function_names_handlers_verbs = [
-    ["createUser", "src/User.create", "POST", aws_api_gateway_resource.users_resource.id],
-    ["loginUser", "src/User.login", "POST", aws_api_gateway_resource.login_resource.id],
-    ["getUser", "src/User.get", "GET", aws_api_gateway_resource.user_resource.id],
-    ["updateUser", "src/User.update", "PUT", aws_api_gateway_resource.user_resource.id],
-    ["getProfile", "src/User.getProfile", "PUT", aws_api_gateway_resource.username_resource.id],
-    ["followUser", "src/User.follow", "POST", aws_api_gateway_resource.follow_resource.id],
-    ["unfollowUser", "src/User.follow", "DELETE", aws_api_gateway_resource.follow_resource.id],    
-    ["createArticle", "src/Article.create", "POST", aws_api_gateway_resource.articles_resource.id],    
-    ["getArticle", "src/Article.get", "GET", aws_api_gateway_resource.slug_resource.id],    
-    ["udpateArticle", "src/Article.update", "PUT", aws_api_gateway_resource.slug_resource.id],    
-    ["deleteArticle", "src/Article.delete", "DELETE", aws_api_gateway_resource.slug_resource.id],    
-    ["favoriteArticle", "src/Article.favorite", "POST", aws_api_gateway_resource.favorite_resource.id],    
-    ["unfavoriteArticle", "src/Article.favorite", "DELETE", aws_api_gateway_resource.favorite_resource.id],    
-    ["listArticles", "src/Article.list", "GET", aws_api_gateway_resource.articles_resource.id],    
-    ["getArticlesFeed", "src/Article.getFeed", "GET", aws_api_gateway_resource.feed_resource.id],    
-    ["getTags", "src/Article.getTags", "GET", aws_api_gateway_resource.tags_resource.id],    
-    ["createComment", "src/Comment.create", "POST", aws_api_gateway_resource.comments_resource.id],    
-    ["getComments", "src/Comment.get", "GET", aws_api_gateway_resource.comments_resource.id],    
-    ["deleteComment", "src/Comment.delete", "DELETE", aws_api_gateway_resource.id_resource.id],    
-    ["ping", "src/Util.ping", "GET", aws_api_gateway_resource.ping_resource.id],    
-  ]
+  function_configs = {
+    "createUser": {
+        "handler": "src/User.create",
+        "verb": "POST",
+        "resource": aws_api_gateway_resource.users_resource.id
+    },
+    "loginUser": {
+        "handler": "src/User.login",
+        "verb": "POST",
+        "resource": aws_api_gateway_resource.login_resource.id
+    },
+    "getUser": {
+        "handler": "src/User.get",
+        "verb": "GET",
+        "resource": aws_api_gateway_resource.user_resource.id
+    },
+    "updateUser": {
+        "handler": "src/User.update",
+        "verb": "PUT",
+        "resource": aws_api_gateway_resource.user_resource.id
+    },
+    "getProfile": {
+        "handler": "src/User.getProfile",
+        "verb": "PUT",
+        "resource": aws_api_gateway_resource.username_resource.id
+    },
+    "followUser": {
+        "handler": "src/User.follow",
+        "verb": "POST",
+        "resource": aws_api_gateway_resource.follow_resource.id
+    },
+    "unfollowUser": {
+        "handler": "src/User.follow",
+        "verb": "DELETE",
+        "resource": aws_api_gateway_resource.follow_resource.id
+    },
+    "createArticle": {
+        "handler": "src/Article.create",
+        "verb": "POST",
+        "resource": aws_api_gateway_resource.articles_resource.id
+    },
+    "getArticle": {
+        "handler": "src/Article.get",
+        "verb": "GET",
+        "resource": aws_api_gateway_resource.slug_resource.id
+    },
+    "udpateArticle": {
+        "handler": "src/Article.update",
+        "verb": "PUT",
+        "resource": aws_api_gateway_resource.slug_resource.id
+    },
+    "deleteArticle": {
+        "handler": "src/Article.delete",
+        "verb": "DELETE",
+        "resource": aws_api_gateway_resource.slug_resource.id
+    },
+    "favoriteArticle": {
+        "handler": "src/Article.favorite",
+        "verb": "POST",
+        "resource": aws_api_gateway_resource.favorite_resource.id
+    },
+    "unfavoriteArticle": {
+        "handler": "src/Article.favorite",
+        "verb": "DELETE",
+        "resource": aws_api_gateway_resource.favorite_resource.id
+    },
+    "getArticlesFeed": {
+        "handler": "src/Article.getFeed",
+        "verb": "GET",
+        "resource": aws_api_gateway_resource.feed_resource.id
+    },
+    "getTags": {
+        "handler": "src/Article.getTags",
+        "verb": "GET",
+        "resource": aws_api_gateway_resource.tags_resource.id
+    },
+    "listArticles": {
+        "handler": "src/Article.list",
+        "verb": "GET",
+        "resource": aws_api_gateway_resource.articles_resource.id
+    },
+    "createComment": {
+        "handler": "src/Comment.create",
+        "verb": "POST",
+        "resource": aws_api_gateway_resource.comments_resource.id
+    },
+    "getComments": {
+        "handler": "src/Comment.get",
+        "verb": "GET",
+        "resource": aws_api_gateway_resource.comments_resource.id
+    },
+    "deleteComment": {
+        "handler": "src/Comment.delete",
+        "verb": "DELETE",
+        "resource": aws_api_gateway_resource.id_resource.id
+    },
+    "ping": {
+        "handler": "src/Util.ping",
+        "verb": "GET",
+        "resource": aws_api_gateway_resource.ping_resource.id
+    }
+  }
 }
+
