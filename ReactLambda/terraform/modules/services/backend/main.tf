@@ -31,97 +31,97 @@ module "api_endpoint" {
     "createUser": {
         "handler": "users-post",
         "verb": "POST",
-        "resource": aws_api_gateway_resource.users_resource.id
+        "resource": aws_api_gateway_resource.users_resource
     },
     "loginUser": {
         "handler": "users-login-post",
         "verb": "POST",
-        "resource": aws_api_gateway_resource.login_resource.id
+        "resource": aws_api_gateway_resource.login_resource
     },
     "getUser": {
         "handler": "user-get",
         "verb": "GET",
-        "resource": aws_api_gateway_resource.user_resource.id
+        "resource": aws_api_gateway_resource.user_resource
     },
     "updateUser": {
         "handler": "user-put",
         "verb": "PUT",
-        "resource": aws_api_gateway_resource.user_resource.id
+        "resource": aws_api_gateway_resource.user_resource
     },
     "getProfile": {
         "handler": "profiles-get",
         "verb": "PUT",
-        "resource": aws_api_gateway_resource.username_resource.id
+        "resource": aws_api_gateway_resource.username_resource
     },
     "followUser": {
         "handler": "profiles-follow-post",
         "verb": "POST",
-        "resource": aws_api_gateway_resource.follow_resource.id
+        "resource": aws_api_gateway_resource.follow_resource
     },
     "unfollowUser": {
         "handler": "profiles-follow-delete",
         "verb": "DELETE",
-        "resource": aws_api_gateway_resource.follow_resource.id
+        "resource": aws_api_gateway_resource.follow_resource
     },
     "createArticle": {
         "handler": "articles-post",
         "verb": "POST",
-        "resource": aws_api_gateway_resource.articles_resource.id
+        "resource": aws_api_gateway_resource.articles_resource
     },
     "getArticle": {
         "handler": "articles-slug-get",
         "verb": "GET",
-        "resource": aws_api_gateway_resource.slug_resource.id
+        "resource": aws_api_gateway_resource.slug_resource
     },
     "udpateArticle": {
         "handler": "articles-slug-put",
         "verb": "PUT",
-        "resource": aws_api_gateway_resource.slug_resource.id
+        "resource": aws_api_gateway_resource.slug_resource
     },
     "deleteArticle": {
         "handler": "articles-slug-delete",
         "verb": "DELETE",
-        "resource": aws_api_gateway_resource.slug_resource.id
+        "resource": aws_api_gateway_resource.slug_resource
     },
     "favoriteArticle": {
         "handler": "favorite-post",
         "verb": "POST",
-        "resource": aws_api_gateway_resource.favorite_resource.id
+        "resource": aws_api_gateway_resource.favorite_resource
     },
     "unfavoriteArticle": {
         "handler": "favorite-delete",
         "verb": "DELETE",
-        "resource": aws_api_gateway_resource.favorite_resource.id
+        "resource": aws_api_gateway_resource.favorite_resource
     },
     "getArticlesFeed": {
         "handler": "articles-feed-get",
         "verb": "GET",
-        "resource": aws_api_gateway_resource.feed_resource.id
+        "resource": aws_api_gateway_resource.feed_resource
     },
     "getTags": {
         "handler": "tags-get",
         "verb": "GET",
-        "resource": aws_api_gateway_resource.tags_resource.id
+        "resource": aws_api_gateway_resource.tags_resource
     },
     "listArticles": {
         "handler": "articles-get",
         "verb": "GET",
-        "resource": aws_api_gateway_resource.articles_resource.id
+        "resource": aws_api_gateway_resource.articles_resource
     },
     "createComment": {
         "handler": "comments-post",
         "verb": "POST",
-        "resource": aws_api_gateway_resource.comments_resource.id
+        "resource": aws_api_gateway_resource.comments_resource
     },
     "getComments": {
         "handler": "comments-get",
         "verb": "GET",
-        "resource": aws_api_gateway_resource.comments_resource.id
+        "resource": aws_api_gateway_resource.comments_resource
     },
     "deleteComment": {
         "handler": "comments-delete",
         "verb": "DELETE",
-        "resource": aws_api_gateway_resource.id_resource.id
+        "resource": aws_api_gateway_resource.id_resource
     }
   }
 }

@@ -43,7 +43,7 @@ resource "aws_lambda_permission" "gw_permission" {
   action        = "lambda:InvokeFunction"
   function_name = "realworld-${var.stage_name}-${each.key}"
   principal     = "apigateway.amazonaws.com"
-  depends_on = [aws_api_gateway_integration.integration]
+  depends_on = [aws_lambda_function.lambdas]
   source_arn    = "${var.gateway_execution_arn}/*/*/*"
 }
 
@@ -72,15 +72,15 @@ resource "aws_api_gateway_method" "gw_methods" {
   for_each = var.function_configs  
   authorization = "NONE"
   http_method   = each.value.verb
-  resource_id   = each.value.resource
+  resource_id   = each.value.resource.id
   rest_api_id   = "${var.gateway_id}"
-  depends_on = [aws_lambda_function.lambdas]
+  depends_on = [each.value.resource]
 }
 
 resource "aws_api_gateway_integration" "integration" {
   for_each = var.function_configs
   rest_api_id = "${var.gateway_id}"
-  resource_id = "${each.value.resource}"
+  resource_id = "${each.value.resource.id}"
   http_method = "${each.value.verb}"
 
   integration_http_method = "POST"
@@ -88,5 +88,5 @@ resource "aws_api_gateway_integration" "integration" {
   uri                     = "${aws_lambda_function.lambdas[each.key].invoke_arn}"
  
 
-  depends_on = [aws_api_gateway_method.gw_methods]
+  depends_on = [aws_api_gateway_method.gw_methods, aws_lambda_function.lambdas]
 }
