@@ -1,8 +1,12 @@
 name: Deploy Backend Go
 
-on: workflow_dispatch
-
-
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'ReactLambda/backend-go/**'
+      - 'ReactLambda/terraform/staging/backend/**'
 
 permissions:
   id-token: write # This is required for requesting the JWT
