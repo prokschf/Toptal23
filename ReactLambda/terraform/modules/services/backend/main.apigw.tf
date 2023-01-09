@@ -3,13 +3,14 @@ resource "aws_api_gateway_rest_api" "backend_gw" {
 }
 
 
+
 resource "aws_api_gateway_resource" "api_resource" {
   parent_id   = aws_api_gateway_rest_api.backend_gw.root_resource_id
   path_part   = "api"
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
 
-module "cors" {
+module "cors1" {
   source = "squidfunk/api-gateway-enable-cors/aws"
   version = "0.3.3"
 
@@ -23,12 +24,27 @@ resource "aws_api_gateway_resource" "users_resource" {
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
 
+module "cors2" {
+  source = "squidfunk/api-gateway-enable-cors/aws"
+  version = "0.3.3"
+
+  api_id          = aws_api_gateway_rest_api.backend_gw.id
+  api_resource_id = aws_api_gateway_resource.users_resource.id
+}
+
 resource "aws_api_gateway_resource" "login_resource" {
   parent_id   = aws_api_gateway_resource.users_resource.id
   path_part   = "login"
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
 
+module "cors3" {
+  source = "squidfunk/api-gateway-enable-cors/aws"
+  version = "0.3.3"
+
+  api_id          = aws_api_gateway_rest_api.backend_gw.id
+  api_resource_id = aws_api_gateway_resource.login_resource.id
+}
 
 resource "aws_api_gateway_resource" "user_resource" {
   parent_id   = aws_api_gateway_resource.api_resource.id
@@ -36,6 +52,13 @@ resource "aws_api_gateway_resource" "user_resource" {
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
 
+module "cors4" {
+  source = "squidfunk/api-gateway-enable-cors/aws"
+  version = "0.3.3"
+
+  api_id          = aws_api_gateway_rest_api.backend_gw.id
+  api_resource_id = aws_api_gateway_resource.user_resource.id
+}
 
 resource "aws_api_gateway_resource" "profiles_resource" {
   parent_id   = aws_api_gateway_resource.api_resource.id
@@ -43,6 +66,13 @@ resource "aws_api_gateway_resource" "profiles_resource" {
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
 
+module "cors5" {
+  source = "squidfunk/api-gateway-enable-cors/aws"
+  version = "0.3.3"
+
+  api_id          = aws_api_gateway_rest_api.backend_gw.id
+  api_resource_id = aws_api_gateway_resource.profiles_resource.id
+}
 
 resource "aws_api_gateway_resource" "username_resource" {
   parent_id   = aws_api_gateway_resource.profiles_resource.id
@@ -50,11 +80,26 @@ resource "aws_api_gateway_resource" "username_resource" {
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
 
+module "cors6" {
+  source = "squidfunk/api-gateway-enable-cors/aws"
+  version = "0.3.3"
+
+  api_id          = aws_api_gateway_rest_api.backend_gw.id
+  api_resource_id = aws_api_gateway_resource.username_resource.id
+}
 
 resource "aws_api_gateway_resource" "follow_resource" {
   parent_id   = aws_api_gateway_resource.username_resource.id
   path_part   = "follow"
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
+}
+
+module "cors7" {
+  source = "squidfunk/api-gateway-enable-cors/aws"
+  version = "0.3.3"
+
+  api_id          = aws_api_gateway_rest_api.backend_gw.id
+  api_resource_id = aws_api_gateway_resource.follow_resource.id
 }
 
 resource "aws_api_gateway_resource" "articles_resource" {
@@ -63,10 +108,26 @@ resource "aws_api_gateway_resource" "articles_resource" {
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
 
+module "cors8" {
+  source = "squidfunk/api-gateway-enable-cors/aws"
+  version = "0.3.3"
+
+  api_id          = aws_api_gateway_rest_api.backend_gw.id
+  api_resource_id = aws_api_gateway_resource.articles_resource.id
+}
+
 resource "aws_api_gateway_resource" "slug_resource" {
   parent_id   = aws_api_gateway_resource.articles_resource.id
   path_part   = "{slug}"
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
+}
+
+module "cors9" {
+  source = "squidfunk/api-gateway-enable-cors/aws"
+  version = "0.3.3"
+
+  api_id          = aws_api_gateway_rest_api.backend_gw.id
+  api_resource_id = aws_api_gateway_resource.slug_resource.id
 }
 
 resource "aws_api_gateway_resource" "favorite_resource" {
@@ -75,10 +136,26 @@ resource "aws_api_gateway_resource" "favorite_resource" {
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
 
+module "cors10" {
+  source = "squidfunk/api-gateway-enable-cors/aws"
+  version = "0.3.3"
+
+  api_id          = aws_api_gateway_rest_api.backend_gw.id
+  api_resource_id = aws_api_gateway_resource.favorite_resource.id
+}
+
 resource "aws_api_gateway_resource" "feed_resource" {
   parent_id   = aws_api_gateway_resource.articles_resource.id
   path_part   = "feed"
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
+}
+
+module "cors11" {
+  source = "squidfunk/api-gateway-enable-cors/aws"
+  version = "0.3.3"
+
+  api_id          = aws_api_gateway_rest_api.backend_gw.id
+  api_resource_id = aws_api_gateway_resource.feed_resource.id
 }
 
 resource "aws_api_gateway_resource" "tags_resource" {
@@ -87,10 +164,26 @@ resource "aws_api_gateway_resource" "tags_resource" {
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
 
+module "cors12" {
+  source = "squidfunk/api-gateway-enable-cors/aws"
+  version = "0.3.3"
+
+  api_id          = aws_api_gateway_rest_api.backend_gw.id
+  api_resource_id = aws_api_gateway_resource.tags_resource.id
+}
+
 resource "aws_api_gateway_resource" "comments_resource" {
   parent_id   = aws_api_gateway_resource.slug_resource.id
   path_part   = "comments"
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
+}
+
+module "cors13" {
+  source = "squidfunk/api-gateway-enable-cors/aws"
+  version = "0.3.3"
+
+  api_id          = aws_api_gateway_rest_api.backend_gw.id
+  api_resource_id = aws_api_gateway_resource.comments_resource.id
 }
 
 resource "aws_api_gateway_resource" "id_resource" {
@@ -99,10 +192,27 @@ resource "aws_api_gateway_resource" "id_resource" {
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
 
+module "cors14" {
+  source = "squidfunk/api-gateway-enable-cors/aws"
+  version = "0.3.3"
+
+  api_id          = aws_api_gateway_rest_api.backend_gw.id
+  api_resource_id = aws_api_gateway_resource.id_resource.id
+}
+
+
 resource "aws_api_gateway_resource" "ping_resource" {
   parent_id   = aws_api_gateway_resource.api_resource.id
   path_part   = "ping"
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
+}
+
+module "cors15" {
+  source = "squidfunk/api-gateway-enable-cors/aws"
+  version = "0.3.3"
+
+  api_id          = aws_api_gateway_rest_api.backend_gw.id
+  api_resource_id = aws_api_gateway_resource.ping_resource.id
 }
 
 resource "aws_api_gateway_deployment" "deployment_gw" {
