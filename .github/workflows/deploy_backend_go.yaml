@@ -29,10 +29,13 @@ jobs:
         go-version: 1.15
     - name: Make executeable
       run: chmod +x ./gobuild.sh
+      working-directory: ./ReactLambda/backend-go
     - name: Make executeable
       run: chmod +x ./gomod.sh
+      working-directory: ./ReactLambda/backend-go
     - name: build application
       run: make build  
+      working-directory: ./ReactLambda/backend-go
     - run: terraform init
       working-directory: ./ReactLambda/terraform/staging/services/backend
     - id: plan
