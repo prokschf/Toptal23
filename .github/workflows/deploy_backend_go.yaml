@@ -21,8 +21,14 @@ jobs:
     - uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: 0.15.5
+    - name: Make executeable
+      run: chmod +x ./gobuild.sh
+      working-directory: ./ReactLambda/backend-go
+    - name: Make executeable
+      run: chmod +x ./gomod.sh
+      working-directory: ./ReactLambda/backend-go
     - name: build application
-      run: ./gobuild.sh      
+      run: make build  
       working-directory: ./ReactLambda/backend-go
     - run: terraform init
       working-directory: ./ReactLambda/terraform/staging/services/backend
