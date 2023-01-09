@@ -74,6 +74,7 @@ resource "aws_api_gateway_method" "gw_methods" {
   http_method   = each.value.verb
   resource_id   = each.value.resource
   rest_api_id   = "${var.gateway_id}"
+  depends_on = [aws_lambda_function.lambdas]
 }
 
 resource "aws_api_gateway_integration" "integration" {
@@ -87,5 +88,5 @@ resource "aws_api_gateway_integration" "integration" {
   uri                     = "${aws_lambda_function.lambdas[each.key].invoke_arn}"
  
 
-  depends_on = [aws_lambda_function.lambdas]
+  depends_on = [aws_api_gateway_method.gw_methods]
 }
