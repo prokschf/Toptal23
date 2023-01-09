@@ -6,7 +6,7 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket         = "reactlambda-terraform"
-    key            = "staging/services/terraform.tfstate"
+    key            = "staging/services/frontend/terraform.tfstate"
     region         = "eu-central-1"
 
     
@@ -18,5 +18,15 @@ terraform {
 module "frontend" {
   source = "../../../modules/services/frontend"
 
-  stage_name       = "staging"
+  bucket_name       = "ReactLambda-frontend-staging"
+}
+
+data "terraform_remote_state" "backend" {
+  backend = "s3"
+
+  config = {
+    bucket = "reactlambda-terraform"
+    key    = "${var.stage_name}/services/terraform.tfstate"
+    region = "eu-central-1"
+  }
 }
