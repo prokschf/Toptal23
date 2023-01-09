@@ -36,13 +36,6 @@ jobs:
     - name: build application
       run: make build  
       working-directory: ./ReactLambda/backend-go
-    - name: Archive production artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: dist-without-markdown
-        path: |
-          ./ReactLambda/backend-go/bin
-
     - run: TF_LOG=DEBUG terraform init
       working-directory: ./ReactLambda/terraform/staging/services/backend
     - id: plan

@@ -61,7 +61,7 @@ resource "aws_lambda_layer_version" "backend_lambda_nodejs_layer" {
 
 data "archive_file" "lambda_package" {
   type = "zip"
-  source_dir  = "${path.module}/../../../../backend-go/bin"
+  source_file  = "${path.module}/../../../../backend-go/bin/articles-get"
   output_path = "${local.lambda_function_zip_name}"
 }
 
@@ -78,12 +78,17 @@ module "api_endpoint" {
   gateway_execution_arn = aws_api_gateway_rest_api.backend_gw.execution_arn
   zip_name = "${local.lambda_function_zip_name}"  
   function_configs = {
-    "createUser": {
+        "listArticles": {
+        "handler": "src/Article.list",
+        "verb": "GET",
+        "resource": aws_api_gateway_resource.articles_resource.id
+    },
+    /*"createUser": {
         #"handler": "src/User.create",
         "handler": "users-post",
         "verb": "POST",
         "resource": aws_api_gateway_resource.users_resource.id
-    }/*,
+    },
     "loginUser": {
         "handler": "src/User.login",
         "verb": "POST",
