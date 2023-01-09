@@ -61,7 +61,7 @@ resource "aws_lambda_layer_version" "backend_lambda_nodejs_layer" {
 
 data "archive_file" "lambda_package" {
   type = "zip"
-  source_dir  = "${path.module}/../../../../backend-go"
+  source_dir  = "${path.module}/../../../../backend-go/bin"
   output_path = "${local.lambda_function_zip_name}"
 }
 
@@ -80,7 +80,7 @@ module "api_endpoint" {
   function_configs = {
     "createUser": {
         #"handler": "src/User.create",
-        "handler": "bin/users-post",
+        "handler": "users-post",
         "verb": "POST",
         "resource": aws_api_gateway_resource.users_resource.id
     }/*,
