@@ -1,0 +1,45 @@
+name: Deploy Angular Frontend Staging
+
+
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'ReactLambda/frontend-angular/**'    
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the code
+      - uses: actions/checkout@v2
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./ReactLambda/frontend
+
+      # Build the React application
+      - name: Build the React application
+        run: npm run build
+        working-directory: ./ReactLambda/frontend
+
+      # Set up AWS credentials
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::273711029273:role/DeployFrontEndTestOIDC
+          role-session-name: DeployFrontendSession
+          aws-region: eu-central-1
+
+      # Sync the built React application with the S3 bucket
+      - name: Sync with S3 bucket
+        run: aws s3 sync build/ s3://react23test --delete
+        working-directory: ./ReactLambda/frontend
+

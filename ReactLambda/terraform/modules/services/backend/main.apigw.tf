@@ -170,7 +170,7 @@ module "cors11" {
 }
 
 resource "aws_api_gateway_resource" "tags_resource" {
-  parent_id   = aws_api_gateway_resource.articles_resource.id
+  parent_id   = aws_api_gateway_rest_api.backend_gw.root_resource_id
   path_part   = "tags"
   rest_api_id = aws_api_gateway_rest_api.backend_gw.id
 }
