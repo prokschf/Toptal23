@@ -83,6 +83,5 @@ resource "aws_api_gateway_integration" "integration" {
   type                    = "AWS_PROXY"
   uri                     = "${aws_lambda_function.lambdas[each.key].invoke_arn}"
  
-
   depends_on = [aws_api_gateway_method.gw_methods, aws_lambda_function.lambdas]
 }
