@@ -63,7 +63,7 @@ resource "aws_lambda_function" "lambdas" {
 
   environment {
     variables = {
-      DYNAMODB_NAMESPACE = "${var.stage_name}"
+      STAGE = "${var.stage_name}"
     }
   }  
 }
