@@ -18,7 +18,7 @@ data "terraform_remote_state" "db" {
     region = "eu-central-1"
   }
 }
-
+/*
 data "archive_file" "lambda_package" {
   type = "zip"
   source_dir  = "${path.module}/../../../../backend"
@@ -56,6 +56,15 @@ resource "aws_lambda_layer_version" "backend_lambda_nodejs_layer" {
   source_code_hash = "${data.archive_file.lambda_common_libs_layer_package.output_base64sha256}"
   compatible_runtimes = ["nodejs12.x"]
 }
+*/
+
+
+data "archive_file" "lambda_package" {
+  type = "zip"
+  source_dir  = "${path.module}/../../../../backend-go"
+  output_path = "${local.lambda_function_zip_name}"
+}
+
 
 module "api_endpoint" {
   source = ".//api_endpoint"
@@ -70,10 +79,11 @@ module "api_endpoint" {
   zip_name = "${local.lambda_function_zip_name}"  
   function_configs = {
     "createUser": {
-        "handler": "src/User.create",
+        #"handler": "src/User.create",
+        "handler": "bin/users-post",
         "verb": "POST",
         "resource": aws_api_gateway_resource.users_resource.id
-    },
+    }/*,
     "loginUser": {
         "handler": "src/User.login",
         "verb": "POST",
@@ -168,7 +178,7 @@ module "api_endpoint" {
         "handler": "src/Util.ping",
         "verb": "GET",
         "resource": aws_api_gateway_resource.ping_resource.id
-    }
+    }*/
   }
 }
 
