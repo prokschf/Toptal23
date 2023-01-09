@@ -36,7 +36,7 @@ jobs:
     - name: build application
       run: make build  
       working-directory: ./ReactLambda/backend-go
-    - run: terraform init
+    - run: TF_LOG=DEBUG terraform init
       working-directory: ./ReactLambda/terraform/staging/services/backend
     - id: plan
       run: terraform apply -auto-approve
