@@ -27,6 +27,12 @@ jobs:
       run: chmod +x ./gobuild.sh
     - name: Make executeable
       run: chmod +x ./gomod.sh
+    - name: Make executeable
+      run: go get github.com/chrisxue815/realworld-aws-lambda-dynamodb-go/model
+    - name: Make executeable
+      run: go get github.com/chrisxue815/realworld-aws-lambda-dynamodb-go/service
+    - name: Make executeable
+      run: go get github.com/chrisxue815/realworld-aws-lambda-dynamodb-go/util
     - name: build application
       run: make build  
     - run: terraform init
