@@ -1,0 +1,35 @@
+name: Deploy Frontend Infra
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'terraform/staging/services/frontend/**'
+      - 'terraform/modules/services/frontend/**'
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+#      with:
+#        repository: chrisxue815/realworld-aws-lambda-dynamodb-go  
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: arn:aws:iam::273711029273:role/DeployBackEndTestOIDC
+        role-session-name: DeployFrontendInfraSession
+        aws-region: eu-central-1    
+    - uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.15.5
+    - run: TF_LOG=DEBUG terraform init
+      working-directory: ./terraform/staging/services/frontend
+    - id: plan
+      run: terraform apply -auto-approve
+      working-directory: ./terraform/staging/services/frontend
+  

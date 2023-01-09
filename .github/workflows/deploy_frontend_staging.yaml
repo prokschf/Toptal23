@@ -32,12 +32,15 @@ jobs:
 
       - name: Check prettier
         run: npm run prettier:check
+        working-directory: ./frontend
       - name: Check ESLinter
         run: npm run lint:check
+        working-directory: ./frontend
       - name: Check unit tests
         run: npm run test --ci --lastCommit --maxWorkers=50%
         env:
           CI: true
+        working-directory: ./frontend
 
       # Set up AWS credentials
       - name: Configure AWS credentials
@@ -47,8 +50,9 @@ jobs:
           role-session-name: DeployFrontendSession
           aws-region: eu-central-1
 
+
       # Sync the built React application with the S3 bucket
       - name: Sync with S3 bucket
-        run: aws s3 sync build/ s3://react23test --delete
+        run: aws s3 sync build/ s3://ReactLambda-frontend-staging-www --delete
         working-directory: ./frontend
 
