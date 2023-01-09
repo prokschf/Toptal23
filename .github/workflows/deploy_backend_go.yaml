@@ -22,7 +22,7 @@ jobs:
       with:
         terraform_version: 0.15.5
     - name: build application
-      run: sudo make build        
+      run: make build        
       working-directory: ./ReactLambda/backend-go
     - run: terraform init
       working-directory: ./ReactLambda/terraform/staging/services/backend
