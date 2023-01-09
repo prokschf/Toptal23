@@ -68,7 +68,7 @@
     "@storybook/addon-a11y": "^6.5.15",
     "@storybook/addon-essentials": "~6.5.15",
     "@storybook/addon-interactions": "^6.5.15",
-    "@storybook/builder-vite": "0.2.6",
+    "@storybook/builder-vite": "0.2.7",
     "@storybook/builder-webpack5": "~6.5.15",
     "@storybook/core-server": "~6.5.15",
     "@storybook/jest": "^0.0.10",
