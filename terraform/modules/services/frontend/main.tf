@@ -40,3 +40,4 @@ resource "aws_s3_bucket" "root_bucket" {
 
   tags = var.common_tags
 }
+
