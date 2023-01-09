@@ -1,10 +1,8 @@
 name: Deploy Backend
 
-on:
-  push:
-    branches:
-      - mains__
-    paths:
+on: workflow_dispatch
+
+
 
 permissions:
   id-token: write # This is required for requesting the JWT
@@ -23,8 +21,11 @@ jobs:
     - uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: 0.15.5
+    - name: build application
+      run: make build        
+      working-directory: ./ReactLambda/backend-go
     - run: terraform init
-      working-directory: ./ReactLambda/terraform
+      working-directory: ./ReactLambda/terraform/staging/services/backend
     - id: plan
       run: terraform apply -auto-approve
-      working-directory: ./ReactLambda/terraform
+      working-directory: ./ReactLambda/terraform/staging/services/backend

@@ -9,9 +9,7 @@ const slugify = require('slugify');
 module.exports = {
 
   /** Create article */
-  async create(event) {
-
-    
+  async create(event) {    
     const authenticatedUser = await User.authenticateAndGetUser(event);
     if (!authenticatedUser) {
       return Util.envelop('Must be logged in.', 422);
