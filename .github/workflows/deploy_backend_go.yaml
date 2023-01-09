@@ -24,15 +24,15 @@ jobs:
       with:
         terraform_version: 0.15.5
     - name: Make executeable
+      run: go get github.com/chrisxue815/realworld-aws-lambda-dynamodb-go/model
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.15
+    - name: Make executeable
       run: chmod +x ./gobuild.sh
     - name: Make executeable
       run: chmod +x ./gomod.sh
-    - name: Make executeable
-      run: go get github.com/chrisxue815/realworld-aws-lambda-dynamodb-go/model
-    - name: Make executeable
-      run: go get github.com/chrisxue815/realworld-aws-lambda-dynamodb-go/service
-    - name: Make executeable
-      run: go get github.com/chrisxue815/realworld-aws-lambda-dynamodb-go/util
     - name: build application
       run: make build  
     - run: terraform init
