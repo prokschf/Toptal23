@@ -1,4 +1,4 @@
-name: Deploy Backend Go
+name: Deploy Backend Go Staging
 
 on:
   push:
