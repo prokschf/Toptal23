@@ -22,7 +22,7 @@ jobs:
       with:
         terraform_version: 0.15.5
     - name: build application
-      run: make build        
+      run: ./gobuild.sh      
       working-directory: ./ReactLambda/backend-go
     - run: terraform init
       working-directory: ./ReactLambda/terraform/staging/services/backend
