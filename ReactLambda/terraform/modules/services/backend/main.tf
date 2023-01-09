@@ -79,7 +79,7 @@ module "api_endpoint" {
   zip_name = "${local.lambda_function_zip_name}"  
   function_configs = {
         "listArticles": {
-        "handler": "src/Article.list",
+        "handler": "articles-get",
         "verb": "GET",
         "resource": aws_api_gateway_resource.articles_resource.id
     },
