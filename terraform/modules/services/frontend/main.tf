@@ -21,7 +21,6 @@ resource "aws_s3_bucket" "www_bucket" {
     error_document = "404.html"
   }
 
-  tags = var.common_tags
 }
 
 # S3 bucket for redirecting non-www to www.
@@ -31,6 +30,5 @@ resource "aws_s3_bucket" "root_bucket" {
   policy = templatefile("templates/s3-policy.json", { bucket = var.bucket_name })
 
   
-  tags = var.common_tags
 }
 
