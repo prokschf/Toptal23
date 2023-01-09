@@ -1,3 +1,3 @@
 export default {
-  baseApiUrl: 'https://mc2g3scgf3.execute-api.eu-central-1.amazonaws.com/staging/api/',
+  baseApiUrl: 'https://59mdwr1tq8.execute-api.eu-central-1.amazonaws.com/staging/api/',
 };
