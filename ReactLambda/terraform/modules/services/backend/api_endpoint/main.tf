@@ -53,13 +53,10 @@ resource "aws_lambda_function" "lambdas" {
   filename = "zip_${each.value.handler}"
   source_code_hash = data.archive_file.lambda_package[each.key].output_base64sha256
   handler = each.value.handler
-#  runtime = "nodejs12.x"
   runtime = "go1.x"
   publish = "true"
   timeout = 60
   role = "${var.iam_role_arm}"
- # depends_on = [aws_cloudwatch_log_group.log_groups]
-#  layers = ["${var.backend_lambda_nodejs_layer_arn}"]
 
   environment {
     variables = {
