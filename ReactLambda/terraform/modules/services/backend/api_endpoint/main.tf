@@ -47,7 +47,7 @@ resource "aws_lambda_permission" "gw_permission" {
   action        = "lambda:InvokeFunction"
   function_name = "realworld-${var.stage_name}-${each.key}"
   principal     = "apigateway.amazonaws.com"
-  depends_on = [aws_lambda_function.lambdas]
+  depends_on = [aws_api_gateway_integration.integration]
   source_arn    = "${var.gateway_execution_arn}/*/*/*"
 }
 
