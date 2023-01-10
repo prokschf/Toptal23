@@ -18,15 +18,5 @@ terraform {
 module "frontend" {
   source = "../../../modules/services/frontend"
 
-  bucket_name       = "ReactLambda-frontend-staging-www"
-}
-
-data "terraform_remote_state" "backend" {
-  backend = "s3"
-
-  config = {
-    bucket = "reactlambda-terraform"
-    key    = "staging/services/terraform.tfstate"
-    region = "eu-central-1"
-  }
+  bucket_name       = "reactlambda-frontend-staging-www"
 }
