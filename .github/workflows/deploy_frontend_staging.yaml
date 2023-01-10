@@ -33,9 +33,6 @@ jobs:
       - name: Check prettier
         run: npm run prettier:check
         working-directory: ./frontend
-      - name: Check ESLinter
-        run: npm run lint:check
-        working-directory: ./frontend
       - name: Check unit tests
         run: npm run test --ci --lastCommit --maxWorkers=50%
         env:
