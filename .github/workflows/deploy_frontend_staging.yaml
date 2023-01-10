@@ -24,6 +24,13 @@ jobs:
       - name: Install dependencies
         run: npm install
         working-directory: ./frontend
+      # Set up AWS credentials
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::273711029273:role/DeployFrontEndTestOIDC
+          role-session-name: DeployFrontendSession
+          aws-region: eu-central-1
       - uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 0.15.5
@@ -44,7 +51,7 @@ jobs:
       - name: update the settings file with back-end base_url
         run: |
           echo export default { > ./frontend/src/config/settings.ts
-          echo  baseApiUrl: '${{ steps.tf-outputs.outputs.base_url }}/api/', >> ./frontend/src/config/settings.ts
+          echo  baseApiUrl: '${{ steps.tf-outputs.outputs.base_url }}/staging/api/', >> ./frontend/src/config/settings.ts
           echo };" >> ./frontend/src/config/settings.ts
       # Build the React application
       - name: Build the React application
@@ -52,13 +59,6 @@ jobs:
         working-directory: ./frontend
 
 
-      # Set up AWS credentials
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: arn:aws:iam::273711029273:role/DeployFrontEndTestOIDC
-          role-session-name: DeployFrontendSession
-          aws-region: eu-central-1
 
 
       # Sync the built React application with the S3 bucket
