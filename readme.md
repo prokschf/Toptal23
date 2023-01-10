@@ -1,3 +1,5 @@
+Github repo: https://github.com/prokschf/Toptal23
+
 I started with the Reacy+Redux and Lamda+Dynamo JS implementation
 However I discovered that the back-end doesnt adhere to the API specs.
 Specifically there were missing parameters like 'articlesCount' in GET /articles/
