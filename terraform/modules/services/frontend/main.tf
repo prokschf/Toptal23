@@ -16,19 +16,14 @@ resource "aws_s3_bucket" "www_bucket" {
     max_age_seconds = 3000
   }
 
-  website {
-    index_document = "index.html"
-    error_document = "404.html"
+}
+
+resource "aws_s3_bucket_website_configuration" "example" {
+  bucket = aws_s3_bucket.www_bucket.bucket
+
+  index_document {
+    suffix = "index.html"
   }
 
+
 }
-
-# S3 bucket for redirecting non-www to www.
-resource "aws_s3_bucket" "root_bucket" {
-  bucket = var.bucket_name
-  acl    = "public-read"
-  policy = templatefile("${path.module}/templates/s3-policy.json", { bucket = var.bucket_name })
-
-  
-}
-
