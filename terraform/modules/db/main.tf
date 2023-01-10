@@ -13,6 +13,10 @@ resource "aws_dynamodb_table" "realworld-user-table" {
   write_capacity = 1
   hash_key       = "Username"
 
+  point_in_time_recovery {
+    enabled = true
+  }
+
   attribute {
     name = "Username"
     type = "S"
@@ -34,6 +38,10 @@ resource "aws_dynamodb_table" "realworld-email-user-table" {
     name = "Email"
     type = "S"
   }
+
+  point_in_time_recovery {
+    enabled = true
+  }  
 
   tags = {
     Environment = "${var.stage_name}"
@@ -57,6 +65,10 @@ resource "aws_dynamodb_table" "realworld-follow-table" {
     name = "Publisher"
     type = "S"
   }
+
+  point_in_time_recovery {
+    enabled = true
+  }  
 
   tags = {
     Environment = "${var.stage_name}"
@@ -89,6 +101,10 @@ resource "aws_dynamodb_table" "realworld-article-table" {
     name = "Author"
     type = "S"
   }
+
+  point_in_time_recovery {
+    enabled = true
+  }  
 
   global_secondary_index {
     name               = "CreatedAt"
@@ -136,6 +152,10 @@ resource "aws_dynamodb_table" "realworld-article-tag-table" {
     type = "N"
   }
 
+  point_in_time_recovery {
+    enabled = true
+  }
+
   local_secondary_index {
     name               = "CreatedAt"
     #hash_key           = "Tag"
@@ -168,6 +188,10 @@ resource "aws_dynamodb_table" "realworld-tag-table" {
   attribute {
     name = "Dummy"
     type = "N"
+  }
+
+  point_in_time_recovery {
+    enabled = true
   }
 
   global_secondary_index {
@@ -207,6 +231,10 @@ resource "aws_dynamodb_table" "realworld-favorite-article-table" {
     type = "N"
   }
 
+  point_in_time_recovery {
+    enabled = true
+  }  
+
   local_secondary_index {
     name               = "FavoritedAt"
     #hash_key           = "Username"
@@ -241,6 +269,10 @@ resource "aws_dynamodb_table" "realworld-comment-table" {
     name = "CreatedAt"
     type = "N"
   }
+
+  point_in_time_recovery {
+    enabled = true
+  }  
 
   local_secondary_index {
     name               = "CreatedAt"
