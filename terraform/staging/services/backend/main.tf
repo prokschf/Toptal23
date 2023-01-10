@@ -20,3 +20,7 @@ module "backend" {
 
   stage_name       = "staging"
 }
+
+output "base_url" {
+  value = "${module.backend.base_url}"
+}
