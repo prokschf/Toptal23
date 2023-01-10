@@ -5,9 +5,9 @@ variable "bucket_name" {
 }
 
 resource "aws_s3_bucket" "www_bucket" {
-  bucket = "www.${var.bucket_name}"
+  bucket = "${var.bucket_name}"
   acl    = "public-read"
-  policy = templatefile("${path.module}/templates/s3-policy.json", { bucket = "www.${var.bucket_name}" })
+  policy = templatefile("${path.module}/templates/s3-policy.json", { bucket = "${var.bucket_name}" })
 
   cors_rule {
     allowed_headers = ["Authorization", "Content-Length"]
