@@ -325,17 +325,17 @@ resource "aws_api_gateway_stage" "gw_stage" {
   access_log_settings = {
     destination_arn = aws_cloudwatch_log_group.cw_loggroup.arn
     format = { 
-      "requestId":"$context.requestId", \
-      "extendedRequestId":"$context.extendedRequestId", \
-      "ip": "$context.identity.sourceIp", \
-      "caller":"$context.identity.caller", \
-      "user":"$context.identity.user", \
-      "requestTime":"$context.requestTime", \
-      "httpMethod":"$context.httpMethod", \
-      "resourcePath":"$context.resourcePath", \
-      "status":"$context.status", \
-      "protocol":"$context.protocol", \
-      "responseLength":"$context.responseLength" \
+      "requestId":"$context.requestId", 
+      "extendedRequestId":"$context.extendedRequestId", 
+      "ip": "$context.identity.sourceIp", 
+      "caller":"$context.identity.caller", 
+      "user":"$context.identity.user", 
+      "requestTime":"$context.requestTime", 
+      "httpMethod":"$context.httpMethod", 
+      "resourcePath":"$context.resourcePath", 
+      "status":"$context.status", 
+      "protocol":"$context.protocol", 
+      "responseLength":"$context.responseLength" 
     }
   }
 }
