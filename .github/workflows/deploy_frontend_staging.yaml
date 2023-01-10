@@ -50,9 +50,9 @@ jobs:
           path: ./terraform/staging/services/backend
       - name: update the settings file with back-end base_url
         run: |
-          echo "export default {\" > ./frontend/src/config/settings.ts
-          echo "  baseApiUrl: '${{ steps.tf-outputs.outputs.base_url }}/staging/api/'," >> ./frontend/src/config/settings.ts
-          echo "};\"" >> ./frontend/src/config/settings.ts
+          echo "export default {" > ./frontend/src/config/settings.ts
+          echo "  baseApiUrl: '${{ steps.tf-outputs.outputs.base_url }}staging/api/'," >> ./frontend/src/config/settings.ts
+          echo "};" >> ./frontend/src/config/settings.ts
       # Build the React application
       - name: Build the React application
         run: npm run build
