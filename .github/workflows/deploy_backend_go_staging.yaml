@@ -42,6 +42,9 @@ jobs:
     - name: build application
       run: make build  
       working-directory: ./backend-go
+    - name: Call a api test script
+      run:  bash run-api-tests.sh
+      working-directory: ./api
     - run: TF_LOG=DEBUG terraform init
       working-directory: ./terraform/staging/services/backend
     - id: apply
