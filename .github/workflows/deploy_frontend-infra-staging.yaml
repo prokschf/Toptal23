@@ -24,7 +24,7 @@ jobs:
         role-to-assume: arn:aws:iam::273711029273:role/DeployBackEndTestOIDC
         role-session-name: DeployFrontendInfraSession
         aws-region: eu-central-1    
-    - uses: hashicorp/setup-terraform@v1
+    - uses: hashicorp/setup-terraform@v2
       with:
         terraform_version: 0.15.5
     - run: TF_LOG=DEBUG terraform init
