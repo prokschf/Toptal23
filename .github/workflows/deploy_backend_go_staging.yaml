@@ -28,6 +28,7 @@ jobs:
     - uses: hashicorp/setup-terraform@v1
       with:
         terraform_version: 0.15.5
+        terraform_wrapper: false
     - name: Set up Go
       uses: actions/setup-go@v3
       with:
@@ -43,6 +44,6 @@ jobs:
       working-directory: ./backend-go
     - run: TF_LOG=DEBUG terraform init
       working-directory: ./terraform/staging/services/backend
-    - id: plan
+    - id: apply
       run: terraform apply -auto-approve
       working-directory: ./terraform/staging/services/backend

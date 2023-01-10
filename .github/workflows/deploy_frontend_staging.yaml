@@ -24,12 +24,10 @@ jobs:
       - name: Install dependencies
         run: npm install
         working-directory: ./frontend
-
-      # Build the React application
-      - name: Build the React application
-        run: npm run build
-        working-directory: ./frontend
-
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.15.5
+          terraform_wrapper: false
       - name: Check prettier
         run: npm run prettier:check
         working-directory: ./frontend
@@ -38,6 +36,21 @@ jobs:
         env:
           CI: true
         working-directory: ./frontend
+      - name: Get outputs
+        uses: dflook/terraform-output@v1
+        id: tf-outputs
+        with:
+          path: ./terraform/staging/services/backend
+      - name: update the settings file with back-end base_url
+        run: |
+          echo export default { > ./frontend/src/config/settings.ts
+          echo  baseApiUrl: '${{ steps.tf-outputs.outputs.base_url }}/api/', >> ./frontend/src/config/settings.ts
+          echo };" >> ./frontend/src/config/settings.ts
+      # Build the React application
+      - name: Build the React application
+        run: npm run build
+        working-directory: ./frontend
+
 
       # Set up AWS credentials
       - name: Configure AWS credentials
