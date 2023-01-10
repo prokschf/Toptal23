@@ -321,26 +321,12 @@ resource "aws_api_gateway_stage" "gw_stage" {
   deployment_id = aws_api_gateway_deployment.deployment_gw.id
   rest_api_id   = aws_api_gateway_rest_api.backend_gw.id
   stage_name    = "${var.stage_name}"
-
-  access_log_settings = {
+  access_log_settings {
     destination_arn = aws_cloudwatch_log_group.cw_loggroup.arn
-    format = { 
-      "requestId":"$context.requestId", 
-      "extendedRequestId":"$context.extendedRequestId", 
-      "ip": "$context.identity.sourceIp", 
-      "caller":"$context.identity.caller", 
-      "user":"$context.identity.user", 
-      "requestTime":"$context.requestTime", 
-      "httpMethod":"$context.httpMethod", 
-      "resourcePath":"$context.resourcePath", 
-      "status":"$context.status", 
-      "protocol":"$context.protocol", 
-      "responseLength":"$context.responseLength" 
-    }
+    format = "$context.identity.sourceIp,$context.identity.caller,$context.identity.user,$context.requestTime,$context.httpMethod,$context.resourcePath,$context.protocol,$context.status,$context.responseLength,$context.requestId"
   }
 }
 
 output "base_url" {
   value = "${aws_api_gateway_deployment.deployment_gw.invoke_url}"
 }
-
