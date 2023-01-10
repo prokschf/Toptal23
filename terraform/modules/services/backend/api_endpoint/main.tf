@@ -112,12 +112,12 @@ resource "aws_cloudwatch_metric_alarm" "time_alarm" {
     "${aws_sns_topic.lambda_alarm_topic.arn}",
   ]
 
-  dimensions {
+  dimensions = {
     FunctionName = "${aws_lambda_function.lambdas[each.key].function_name}"
     Resource     = "${aws_lambda_function.lambdas[each.key].function_name}"
   }
 }
 
 resource "aws_sns_topic" "lambda_alarm_topic" {
-  name = "user-updates-topic"
+  name = "realworld-${var.stage_name}-lambda-alarm"
 }
