@@ -85,3 +85,39 @@ resource "aws_api_gateway_integration" "integration" {
  
   depends_on = [aws_api_gateway_method.gw_methods, aws_lambda_function.lambdas]
 }
+
+resource "aws_cloudwatch_metric_alarm" "time_alarm" {
+  for_each = var.function_configs
+  depends_on = [aws_lambda_function.lambdas]
+  alarm_name          = "realworld-${var.stage_name}-${each.key}-lambda-execution-time"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "1"
+  metric_name         = "Duration"
+  namespace           = "AWS/Lambda"
+  period              = "60"
+  statistic           = "Maximum"
+  threshold           = "${aws_lambda_function.lambdas[each.key].timeout * 1000 * 0.75}"
+  alarm_description   = "${each.key} Lambda Execution Time"
+  treat_missing_data  = "ignore"
+
+  insufficient_data_actions = [
+    "${aws_sns_topic.lambda_alarm_topic.arn}",
+  ]
+
+  alarm_actions = [
+    "${aws_sns_topic.lambda_alarm_topic.arn}",
+  ]
+
+  ok_actions = [
+    "${aws_sns_topic.lambda_alarm_topic.arn}",
+  ]
+
+  dimensions {
+    FunctionName = "${aws_lambda_function.lambdas[each.key].function_name}"
+    Resource     = "${aws_lambda_function.lambdas[each.key].function_name}"
+  }
+}
+
+resource "aws_sns_topic" "lambda_alarm_topic" {
+  name = "user-updates-topic"
+}
