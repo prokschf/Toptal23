@@ -306,10 +306,38 @@ resource "aws_api_gateway_deployment" "deployment_gw" {
   }
 }
 
+resource "aws_api_gateway_method_settings" "all" {
+  rest_api_id = aws_api_gateway_rest_api.backend_gw.id
+  stage_name  = aws_api_gateway_stage.gw_stage.stage_name
+  method_path = "*/*"
+
+  settings {
+    metrics_enabled = true
+    logging_level   = "INFO"
+  }
+}
+
 resource "aws_api_gateway_stage" "gw_stage" {
   deployment_id = aws_api_gateway_deployment.deployment_gw.id
   rest_api_id   = aws_api_gateway_rest_api.backend_gw.id
   stage_name    = "${var.stage_name}"
+
+  access_log_settings = {
+    destination_arn = aws_cloudwatch_log_group.cw_loggroup.arn
+    format = { 
+      "requestId":"$context.requestId", \
+      "extendedRequestId":"$context.extendedRequestId", \
+      "ip": "$context.identity.sourceIp", \
+      "caller":"$context.identity.caller", \
+      "user":"$context.identity.user", \
+      "requestTime":"$context.requestTime", \
+      "httpMethod":"$context.httpMethod", \
+      "resourcePath":"$context.resourcePath", \
+      "status":"$context.status", \
+      "protocol":"$context.protocol", \
+      "responseLength":"$context.responseLength" \
+    }
+  }
 }
 
 output "base_url" {
