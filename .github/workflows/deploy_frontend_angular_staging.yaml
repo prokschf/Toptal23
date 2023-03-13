@@ -32,7 +32,7 @@ jobs:
 
       # Set up AWS credentials
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: arn:aws:iam::273711029273:role/DeployFrontEndTestOIDC
           role-session-name: DeployFrontendSession
